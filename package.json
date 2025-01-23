@@ -1,0 +1,34 @@
+{
+	"private": true,
+	"name": "iris-gtfs-rt-feed",
+	"description": "Matches realtime transit data from Deutsche Bahn's IRIS API against GTFS Schedule, producing GTFS Realtime data.",
+	"version": "0.1.0",
+	"type": "module",
+	"main": "index.js",
+	"author": "Jannis R <mail@jannisr.de>",
+	"contributors": [],
+	"homepage": "https://github.com/derhuerst/iris-gtfs-rt-feed",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/derhuerst/iris-gtfs-rt-feed.git"
+	},
+	"bugs": "https://github.com/derhuerst/iris-gtfs-rt-feed/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=22"
+	},
+	"dependencies": {
+		"pino": "^9.6.0"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.0.0",
+		"eslint": "^9.0.0",
+		"globals": "^15.0.0",
+		"pino-pretty": "^10.3.1"
+	},
+	"scripts": {
+		"start": "node index.js",
+		"lint": "eslint .",
+		"prepublishOnly": "npm run lint && npm test"
+	}
+}

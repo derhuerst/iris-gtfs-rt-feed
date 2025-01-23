@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: '/'
+    schedule:
+      interval: weekly

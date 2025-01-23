@@ -1,0 +1,17 @@
+.DS_Store
+Thumbs.db
+
+.nvm-version
+node_modules
+
+/package-lock.json
+/yarn.lock
+
+# may contain secrets, picked up by Docker Compose
+/.env
+
+/test/gtfs
+/gtfs
+
+# encrypted secrets
+/*.age

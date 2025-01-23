@@ -1,0 +1,8 @@
+.git
+node_modules
+
+# may contain secrets, picked up by Docker Compose
+/.env
+
+/test/gtfs
+/gtfs
