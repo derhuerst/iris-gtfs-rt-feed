@@ -1,0 +1,81 @@
+{
+	"redisMessageId": "1738231246585-43",
+	"serviceDate": "2025-01-30",
+	"stopId": "8006098",
+	"irisPlan": {
+		"arrival": {
+			"cancellation_time": null,
+			"changed_distant_endpoint": null,
+			"changed_path": null,
+			"changed_platform": null,
+			"changed_status": null,
+			"changed_time": null,
+			"distant_change": null,
+			"hidden": null,
+			"line": "RE19",
+			"messages": null,
+			"planned_distant_endpoint": null,
+			"planned_path": [
+				"Oberhausen Hbf",
+				"Oberhausen-Sterkrade",
+				"Oberhausen-Holten",
+				"Dinslaken"
+			],
+			"planned_platform": "2",
+			"planned_status": null,
+			"planned_time": "2025-01-30T22:07:00+00:00",
+			"transition": null,
+			"wings": null
+		},
+		"connection": null,
+		"date_id": "2025-01-30T21:50:00+00:00",
+		"departure": {
+			"cancellation_time": null,
+			"changed_distant_endpoint": null,
+			"changed_path": null,
+			"changed_platform": null,
+			"changed_status": null,
+			"changed_time": null,
+			"distant_change": null,
+			"hidden": null,
+			"line": "RE19",
+			"messages": null,
+			"planned_distant_endpoint": null,
+			"planned_path": [
+				"Wesel",
+				"Wesel Feldmark",
+				"Mehrhoog",
+				"Haldern(Rheinl)",
+				"Empel-Rees",
+				"Millingen(b Rees)",
+				"Praest",
+				"Emmerich",
+				"Emmerich-Elten",
+				"Zevenaar",
+				"Arnhem Centraal"
+			],
+			"planned_platform": "2",
+			"planned_status": null,
+			"planned_time": "2025-01-30T22:08:00+00:00",
+			"transition": null,
+			"wings": null
+		},
+		"eva": null,
+		"hash_id": 864213601611081600,
+		"historic_delay": null,
+		"historic_platform_change": null,
+		"message": null,
+		"raw_id": "9187255234335594190-2501302250-5",
+		"reference": null,
+		"rtr": null,
+		"stop_sequence_id": 5,
+		"trip_id": 9187255234335594000,
+		"trip_label": {
+			"category": "VIA",
+			"filter": "D",
+			"number": "20040",
+			"owner": "R4NRN",
+			"type": "p"
+		}
+	}
+}

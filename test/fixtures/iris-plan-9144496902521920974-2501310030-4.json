@@ -1,0 +1,79 @@
+{
+	"redisMessageId": "1738234841094-91",
+	"serviceDate": "2025-01-30",
+	"stopId": "8003832",
+	"irisPlan": {
+		"arrival": {
+			"cancellation_time": null,
+			"changed_distant_endpoint": null,
+			"changed_path": null,
+			"changed_platform": null,
+			"changed_status": null,
+			"changed_time": null,
+			"distant_change": null,
+			"hidden": null,
+			"line": "44",
+			"messages": null,
+			"planned_distant_endpoint": null,
+			"planned_path": [
+				"Karlsruhe Hbf",
+				"Ettlingen West",
+				"Bruchhausen(b Ettlingen)"
+			],
+			"planned_platform": "2",
+			"planned_status": null,
+			"planned_time": "2025-01-30T23:42:00+00:00",
+			"transition": null,
+			"wings": null
+		},
+		"connection": null,
+		"date_id": "2025-01-30T23:30:00+00:00",
+		"departure": {
+			"cancellation_time": null,
+			"changed_distant_endpoint": null,
+			"changed_path": null,
+			"changed_platform": null,
+			"changed_status": null,
+			"changed_time": null,
+			"distant_change": null,
+			"hidden": null,
+			"line": "44",
+			"messages": null,
+			"planned_distant_endpoint": null,
+			"planned_path": [
+				"Malsch Süd",
+				"Muggensturm Badesee",
+				"Muggensturm",
+				"Rastatt",
+				"Baden-Baden Haueneberstein",
+				"Baden-Baden",
+				"Sinzheim Nord",
+				"Sinzheim",
+				"Baden-Baden Rebland",
+				"Bühl(Baden)"
+			],
+			"planned_platform": "2",
+			"planned_status": null,
+			"planned_time": "2025-01-30T23:42:00+00:00",
+			"transition": null,
+			"wings": null
+		},
+		"eva": null,
+		"hash_id": 3477969033973635600,
+		"historic_delay": null,
+		"historic_platform_change": null,
+		"message": null,
+		"raw_id": "9144496902521920974-2501310030-4",
+		"reference": null,
+		"rtr": null,
+		"stop_sequence_id": 4,
+		"trip_id": 9144496902521921000,
+		"trip_label": {
+			"category": "RB",
+			"filter": "N",
+			"number": "15880",
+			"owner": "800571",
+			"type": "p"
+		}
+	}
+}

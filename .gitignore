@@ -10,8 +10,10 @@ node_modules
 # may contain secrets, picked up by Docker Compose
 /.env
 
-/test/gtfs
-/gtfs
+/test/*.gtfs.zip
+/test/*.gtfs
+/*.gtfs.zip
+/*.gtfs
 
 # encrypted secrets
 /*.age
