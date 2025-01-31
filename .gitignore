@@ -17,3 +17,5 @@ node_modules
 
 # encrypted secrets
 /*.age
+
+/lib/stations.json
