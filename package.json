@@ -19,6 +19,7 @@
 	},
 	"dependencies": {
 		"@mongodb-js/zstd": "^2.0.0",
+		"gtfs-rt-differential-to-full-dataset": "github:traines-source/gtfs-rt-differential-to-full-dataset#fallback-expiry",
 		"ioredis": "^5.4.2",
 		"luxon": "^3.5.0",
 		"pg": "^8.13.1",
@@ -27,7 +28,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.0.0",
 		"eslint": "^9.0.0",
-		"globals": "^15.0.0",
+		"globals": "^16.0.0",
 		"gtfs-via-postgres": "^4.10.2",
 		"pino-pretty": "^10.3.1"
 	},
