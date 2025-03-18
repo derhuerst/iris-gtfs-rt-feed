@@ -3,8 +3,9 @@
 import {createRequire} from 'module'
 const require = createRequire(import.meta.url)
 
-import {test, after} from 'node:test'
+import {test, after, beforeEach} from 'node:test'
 import {ok, deepStrictEqual} from 'node:assert/strict'
+import {connectToRedis} from '../lib/redis.js'
 import {createLogger} from '../lib/logger.js'
 import {createMatchIrisPlan} from '../lib/match-iris-plan-with-gtfs-schedule.js'
 
@@ -16,37 +17,74 @@ const IRIS_PLAN_9187255234335594190_2501302250_5 = require('./fixtures/iris-plan
 const IRIS_PLAN_9144496902521920974_2501310030_4 = require('./fixtures/iris-plan-9144496902521920974-2501310030-4.json')
 // const IRIS_CHANGE_9144496902521920974_2501310030_4 = require('./fixtures/iris-change-9144496902521920974-2501310030-4.json')
 
+const redis = await connectToRedis()
 const {
-	matchIrisPlanWithScheduleStopTimes,
+	matchIrisPlansAndChangesWithScheduleStopTimes,
 	stop,
-} = await createMatchIrisPlan({
+} = await createMatchIrisItems({
 	logger: createLogger('matching-test', {
 		level: 'fatal',
 	}),
+	redis,
 })
 after(async () => {
 	await stop()
 })
 
-test.skip('correctly matches IRIS plan `9187255234335594190-2501302250-5`', async (t) => {
+beforeEach(async () => {
+	await redis.flushdb()
+})
+
+test.skip('correctly matches IRIS plan `2868854051011682435-2501281447-13`', async (t) => {
+	// todo: store in Redis
+
 	const {
-		matchedStopTime,
+		matchedStopTimes,
 		isMatched,
-	} = await matchIrisPlanWithScheduleStopTimes(IRIS_PLAN_9187255234335594190_2501302250_5)
+	} = await matchIrisPlansAndChangesWithScheduleStopTimes(IRIS_PLAN_2868854051011682435_2501281447_13_raw)
 	ok(isMatched, 'must be matched')
 
 	// todo
 })
 
-test('correctly matches IRIS plan `9144496902521920974-2501310030-4`', async (t) => {
+test('correctly matches IRIS plan `9187255234335594190-2501302250-5`', async (t) => {
+	const {irisPlan: irisPlan1} = IRIS_PLAN_9187255234335594190_2501302250_1
+	const {
+		tripId,
+		tripStart,
+	} = parseIrisTimetableStopId(irisPlan1.raw_id)
+
+	await Promise.all([
+		storeIrisPlan(redis, IRIS_PLAN_9187255234335594190_2501302250_1),
+		storeIrisPlan(redis, IRIS_PLAN_9187255234335594190_2501302250_5),
+		storeIrisPlan(redis, IRIS_PLAN_9187255234335594190_2501302250_15),
+	])
+
+	const {
+		matchedStopTimes,
+		isMatched,
+	} = await matchIrisPlansAndChangesWithScheduleStopTimes({
+		tripId,
+		tripStart,
+	})
+	ok(isMatched, 'must be matched')
+
+	// todo
+})
+
+test.skip('correctly matches IRIS plan `9144496902521920974-2501310030-4`', async (t) => {
+	// todo: store in Redis
+
 	const {
 		matchedStopTime,
 		isMatched,
 		// isCached,
-	} = await matchIrisPlanWithScheduleStopTimes(IRIS_PLAN_9144496902521920974_2501310030_4)
+	} = await matchIrisPlansAndChangesWithScheduleStopTimes(IRIS_PLAN_9144496902521920974_2501310030_4)
 	// ok(!isCached, 'must not be cached')
 	ok(isMatched, 'must be matched')
 
 	// todo
 	console.error('matchedStopTime', matchedStopTime)
 })
+
+// todo: add tests for pickStopTimeUpdatesForMatching()?
