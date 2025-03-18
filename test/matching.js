@@ -27,7 +27,7 @@ const IRIS_PLAN_9144496902521920974_2501310030_4 = require('./fixtures/iris-plan
 
 const redis = await connectToRedis()
 const {
-	matchIrisPlansAndChangesWithScheduleStopTimes,
+	matchIrisPlansWithScheduleStopTimes,
 	stop,
 } = await createMatchIrisItems({
 	logger: createLogger('matching-test', {
@@ -50,7 +50,7 @@ test.skip('correctly matches IRIS plan `2868854051011682435-2501281447-13`', asy
 	const {
 		matchedStopTimes,
 		isMatched,
-	} = await matchIrisPlansAndChangesWithScheduleStopTimes(IRIS_PLAN_2868854051011682435_2501281447_13_raw)
+	} = await matchIrisPlansWithScheduleStopTimes(IRIS_PLAN_2868854051011682435_2501281447_13_raw)
 	ok(isMatched, 'must be matched')
 
 	// todo
@@ -59,8 +59,8 @@ test.skip('correctly matches IRIS plan `2868854051011682435-2501281447-13`', asy
 test('correctly matches IRIS plan `9187255234335594190-2501302250-5`', async (t) => {
 	const {irisPlan: irisPlan1} = IRIS_PLAN_9187255234335594190_2501302250_1
 	const {
-		tripId,
-		tripStart,
+		tripId: irisTripId,
+		tripStart: irisTripStart,
 	} = parseIrisTimetableStopId(irisPlan1.raw_id)
 
 	await Promise.all([
@@ -72,9 +72,9 @@ test('correctly matches IRIS plan `9187255234335594190-2501302250-5`', async (t)
 	const {
 		matchedStopTimes,
 		isMatched,
-	} = await matchIrisPlansAndChangesWithScheduleStopTimes({
-		tripId,
-		tripStart,
+	} = await matchIrisPlansWithScheduleStopTimes({
+		irisTripId,
+		irisTripStart,
 	})
 	ok(isMatched, 'must be matched')
 
@@ -88,7 +88,7 @@ test.skip('correctly matches IRIS plan `9144496902521920974-2501310030-4`', asyn
 		matchedStopTimes,
 		isMatched,
 		// isCached,
-	} = await matchIrisPlansAndChangesWithScheduleStopTimes(IRIS_PLAN_9144496902521920974_2501310030_4)
+	} = await matchIrisPlansWithScheduleStopTimes(IRIS_PLAN_9144496902521920974_2501310030_4)
 	// ok(!isCached, 'must not be cached')
 	ok(isMatched, 'must be matched')
 
