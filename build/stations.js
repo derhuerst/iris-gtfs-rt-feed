@@ -1,6 +1,5 @@
 import {ok} from 'node:assert/strict'
-import _dbHafasStations from 'db-hafas-stations'
-const {full: readFullStations} = _dbHafasStations
+import {readFullStations} from 'db-hafas-stations'
 // import {normalizeStationName} from '../lib/normalize-station-name.js'
 
 process.stdout.write(`[`)
