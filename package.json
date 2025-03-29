@@ -19,9 +19,13 @@
 	},
 	"dependencies": {
 		"@mongodb-js/zstd": "^2.0.0",
+		"@turf/distance": "^7.2.0",
+		"@turf/helpers": "^7.2.0",
+		"db-clean-station-name": "^1.2.0",
 		"gtfs-rt-bindings": "^4.7.0",
 		"ioredis": "^5.4.2",
 		"luxon": "^3.5.0",
+		"normalize-for-search": "^2.1.0",
 		"pg": "^8.13.1",
 		"pino": "^9.6.0"
 	},
@@ -31,6 +35,8 @@
 		"eslint": "^9.0.0",
 		"globals": "^15.0.0",
 		"gtfs-via-postgres": "^4.10.2",
+		"pg-cursor": "^2.13.1",
+		"pg-format": "^1.0.4",
 		"pino-pretty": "^10.3.1"
 	},
 	"scripts": {
