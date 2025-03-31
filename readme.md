@@ -1,6 +1,6 @@
 # iris-gtfs-rt-feed
 
-Continuously **realtime transit data from [Deutsche Bahn's IRIS API](https://developers.deutschebahn.com/db-api-marketplace/apis/product/timetables/api/26494) against a [GTFS Schedule](https://gtfs.org/schedule/) dataset and generates [GTFS Realtime (GTFS-RT)](https://gtfs.org/realtime/) data**.
+Continuously **realtime transit data from [Deutsche Bahn's *IRIS* API](https://developers.deutschebahn.com/db-api-marketplace/apis/product/timetables/api/26494) against [DELFI's](https://www.opendata-oepnv.de/ht/de/datensaetze?id=62&tx_vrrkit_view[dataset_name]=deutschlandweite-sollfahrplandaten-gtfs&tx_vrrkit_view[action]=details&tx_vrrkit_view[controller]=View) [GTFS Schedule](https://gtfs.org/schedule/) dataset and generates [GTFS Realtime (GTFS-RT)](https://gtfs.org/realtime/) data** from it.
 
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/iris-gtfs-rt-feed.svg)
 [![support me via GitHub Sponsors](https://img.shields.io/badge/support%20me-donate-fa7664.svg)](https://github.com/sponsors/derhuerst)
@@ -176,10 +176,56 @@ cd postgis-gtfs-importer && npm install --omit dev
 
 ## Getting Started
 
-todo
+### Prerequisites
 
+`iris-gtfs-rt-feed` needs access to the following services to work:
+
+- A [Redis](https://redis.io/docs/latest/) instance with two [streams](https://redis.io/docs/latest/develop/data-types/streams/) `message_queue_plan` & `message_queue_change`. You can configure access to it using `$REDIS_URL_IRIS` (falling back to `$REDIS_URL`).
+- A [Redis](https://redis.io/docs/latest/) used for caching IRIS messages and other operational state. You can configure access to it using `$REDIS_URL`.
+- A [PostgreSQL database server](https://postgresql.org), with the permission to dynamically create new databases (see [postgis-gtfs-importer](https://github.com/mobidata-bw/postgis-gtfs-importer)'s readme). The [DELFI GTFS](https://www.opendata-oepnv.de/ht/de/datensaetze?id=62&tx_vrrkit_view[dataset_name]=deutschlandweite-sollfahrplandaten-gtfs&tx_vrrkit_view[action]=details&tx_vrrkit_view[controller]=View) will be imported here.
+
+#### configure access to PostgreSQL
+
+`iris-gtfs-rt-feed` uses [`pg`](https://npmjs.com/package/pg) to connect to PostgreSQL; For details about supported environment variables and their defaults, refer to [`pg`'s docs](https://node-postgres.com).
+
+To make sure that the connection works, use [`psql`](https://www.postgresql.org/docs/14/app-psql.html) from the same context (same permissions, same container if applicable, etc.).
+
+#### configure access to Redis
+
+`iris-gtfs-rt-feed` uses [`ioredis`](https://npmjs.com/package/ioredis) to connect to PostgreSQL; For details about supported environment variables and their defaults, refer to [its docs](https://github.com/redis/ioredis#readme).
+
+### import GTFS Schedule data
+
+The [GTFS import script](import.sh) will
+1. download the DELFI GTFS dataset;
+3. import it into a separate database called `delfi_gtfs_$timestamp_$gtfs_hash` (each revision gets its own database);
+4. post-process the imported data using the scripts in `gtfs-postprocessing.d`.
+5. keep track of the latest *successfully imported* database's name in a meta "bookkeeping" database (`$PGDATABASE` by default).
+
+Refer to [postgis-gtfs-importer's docs](https://github.com/mobidata-bw/postgis-gtfs-importer#) for details about why this is done and how it works.
+
+Once the import has finished, you must set `$PGDATABASE` to the name of the newly created database.
+
+```shell
+export PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_import')"
+```
+
+> [!NOTE]
+> If you're running `iris-gtfs-rt-feed` in a continuous (service-like) fashion, you'll want to run the GTFS Schedule import regularly, e.g. once per day. `postgis-gtfs-importer` won't import again if the dataset hasn't changed.
+>
+> Because it highly depends on your deployment strategy and preferences on how to schedule the import – and how to modify `$PGDATABASE` for the `iris-gtfs-rt-feed` process afterwards –, this repo doesn't contain any tool for that.
+>
+> As an example, you could use a [systemd timer](https://wiki.archlinux.org/title/Systemd/Timers) to schedule the import, and a [systemd service drop-in file](https://unix.stackexchange.com/a/468067/593065) to set `$PGDATABASE`.
+
+### run `iris-gtfs-rt-feed`
+
+```shell
+node index.js
+```
 
 
 ## License
 
 This project is [ISC-licensed](license.md).
+
+Note that [PostGIS GTFS importer](https://github.com/mobidata-bw/postgis-gtfs-importer), one of the service's dependencies, is EUPL-licensed.

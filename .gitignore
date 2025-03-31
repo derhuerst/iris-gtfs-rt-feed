@@ -19,3 +19,6 @@ node_modules
 /*.age
 
 /lib/stations.json
+
+# working dir for the extracted GTFS feed
+/gtfs
