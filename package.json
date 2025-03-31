@@ -19,6 +19,7 @@
 	},
 	"dependencies": {
 		"@mongodb-js/zstd": "^2.0.0",
+		"gtfs-rt-bindings": "^4.7.0",
 		"ioredis": "^5.4.2",
 		"luxon": "^3.5.0",
 		"pg": "^8.13.1",

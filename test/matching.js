@@ -11,12 +11,17 @@ import {createMatchIrisItems} from '../lib/match-iris-plan-with-gtfs-schedule.js
 import {
 	parseIrisTimetableStopId,
 	storeIrisPlan,
+	storeIrisChange,
 } from '../lib/iris.js'
 
 // see also https://web.archive.org/web/20250131170804/https://www.vias-online.de/wp-content/uploads/sites/5/2024/12/RE19-Regelfahrplan-2025.pdf
 const IRIS_PLAN_9187255234335594190_2501302250_1 = require('./fixtures/iris-plan-9187255234335594190-2501302250-1.json')
+const IRIS_CHANGE_9187255234335594190_2501302250_1 = require('./fixtures/iris-change-9187255234335594190-2501302250-1.json')
 const IRIS_PLAN_9187255234335594190_2501302250_5 = require('./fixtures/iris-plan-9187255234335594190-2501302250-5.json')
+const IRIS_CHANGE_9187255234335594190_2501302250_5 = require('./fixtures/iris-change-9187255234335594190-2501302250-5.json')
 const IRIS_PLAN_9187255234335594190_2501302250_15 = require('./fixtures/iris-plan-9187255234335594190-2501302250-15.json')
+const IRIS_CHANGE_9187255234335594190_2501302250_15 = require('./fixtures/iris-change-9187255234335594190-2501302250-15.json')
+import MATCHED_TRIPUPDATE_9187255234335594190_2501302250 from './fixtures/matched-tripupdate-9187255234335594190-2501302250.js'
 
 // see also https://web.archive.org/web/20250131172454/https://www.agilis.de/wp-content/uploads/2023/05/RB15_Ingolstadt-Ulm.pdf
 const IRIS_PLAN_2868854051011682435_2501281447_13_raw = require('./fixtures/iris-plan-2868854051011682435-2501281447-13.raw.json')
@@ -28,6 +33,7 @@ const IRIS_PLAN_9144496902521920974_2501310030_4 = require('./fixtures/iris-plan
 const redis = await connectToRedis()
 const {
 	matchIrisPlansWithScheduleStopTimes,
+	mergeIrisPlansAndChangesWithScheduleStopTimes,
 	stop,
 } = await createMatchIrisItems({
 	logger: createLogger('matching-test', {
@@ -65,20 +71,23 @@ test('correctly matches IRIS plan `9187255234335594190-2501302250-5`', async (t)
 
 	await Promise.all([
 		storeIrisPlan(redis, IRIS_PLAN_9187255234335594190_2501302250_1),
+		storeIrisChange(redis, IRIS_CHANGE_9187255234335594190_2501302250_1),
 		storeIrisPlan(redis, IRIS_PLAN_9187255234335594190_2501302250_5),
+		storeIrisChange(redis, IRIS_CHANGE_9187255234335594190_2501302250_5),
 		storeIrisPlan(redis, IRIS_PLAN_9187255234335594190_2501302250_15),
+		storeIrisChange(redis, IRIS_CHANGE_9187255234335594190_2501302250_15),
 	])
 
 	const {
-		matchedStopTimes,
 		isMatched,
-	} = await matchIrisPlansWithScheduleStopTimes({
+		tripUpdate,
+	} = await mergeIrisPlansAndChangesWithScheduleStopTimes({
 		irisTripId,
 		irisTripStart,
 	})
-	ok(isMatched, 'must be matched')
 
-	// todo
+	ok(isMatched, 'must be matched')
+	deepStrictEqual(tripUpdate, MATCHED_TRIPUPDATE_9187255234335594190_2501302250)
 })
 
 test.skip('correctly matches IRIS plan `9144496902521920974-2501310030-4`', async (t) => {
