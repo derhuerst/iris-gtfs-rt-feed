@@ -18,7 +18,7 @@
 		"node": ">=22"
 	},
 	"dependencies": {
-		"@mongodb-js/zstd": "^2.0.0",
+		"@mongodb-js/zstd": "^7.0.0",
 		"@turf/distance": "^7.2.0",
 		"@turf/helpers": "^7.2.0",
 		"db-clean-station-name": "^1.2.0",
