@@ -30,7 +30,7 @@
 		"pino": "^10.0.0"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.0.0",
+		"@eslint/js": "^10.0.1",
 		"db-hafas-stations": "^2.0.0",
 		"eslint": "^9.0.0",
 		"globals": "^16.5.0",
